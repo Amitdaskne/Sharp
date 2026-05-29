@@ -46,7 +46,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ProgressBar;
 import top.niunaijun.blackbox.core.system.api.MetaActivationManager;
-import static top.niunaijun.blackbox.core.system.api.MetaActivationManager.getActivationMessage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -93,7 +92,7 @@ public class MainActivity extends Activity {
         TimeExpired = EXP();
         CountTimerAccout();
         boolean isActivated = MetaActivationManager.getActivationStatus();
-            String activationMessage = getActivationMessage();
+            String activationMessage = "";
             if (isActivated) {
                 Toast.makeText(getApplicationContext(), "SDK : " + activationMessage, Toast.LENGTH_LONG).show();
             } else {
