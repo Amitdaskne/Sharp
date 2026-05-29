@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center_horizontal"
+	android:orientation="vertical"
+	android:background="#FF131416">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:paddingBottom="0dp"
+			android:paddingRight="30dp"
+			android:paddingLeft="30dp"
+			android:paddingTop="0dp">
+
+			<ImageView
+				android:layout_gravity="center"
+				android:layout_width="100.0dip"
+				android:layout_height="100.0dip"
+				android:layout_marginBottom="4.0dip"
+				android:src="@drawable/thumb"
+				android:layout_marginTop="30dp"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="10dp"
+				android:orientation="vertical"
+				android:background="@drawable/round"
+				android:layout_marginTop="20dp"
+				android:gravity="center|center_vertical"
+				android:id="@+id/loginprog"
+				android:visibility="gone">
+
+				<ProgressBar
+					android:layout_width="50dp"
+					android:layout_height="50dp"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp"
+					android:indeterminateTint="@color/main"
+					android:indeterminate="true"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Sign in..."
+					android:textColor="#FFFFFFFF"
+					android:textSize="15sp"/>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="10dp"
+				android:orientation="vertical"
+				android:background="@drawable/round"
+				android:layout_marginTop="20dp"
+				android:id="@+id/cvslog">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:visibility="visible"
+
+					android:orientation="horizontal"
+					android:layout_marginBottom="5dp">
+
+					<EditText
+						android:layout_width="wrap_content"
+						android:inputType="textMultiLine"
+						android:layout_height="45dp"
+						android:ems="10"
+						android:drawableLeft="@drawable/ic_acc"
+						android:layout_weight="1.0"
+						android:background="@drawable/in_round"
+						android:paddingLeft="10dp"
+						android:textColor="#FFFFFFFF"
+						android:textSize="17sp"
+						android:layout_marginTop="10dp"
+						android:id="@+id/mail"/>
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_marginBottom="5dp">
+
+					<EditText
+						android:layout_width="wrap_content"
+						android:inputType="textPassword"
+						android:layout_height="45dp"
+						android:drawableLeft="@drawable/ic_lock"
+						android:ems="10"
+						android:layout_weight="1.0"
+						android:background="@drawable/in_round"
+						android:paddingLeft="10dp"
+						android:textColor="#FFFFFFFF"
+						android:textSize="17sp"
+						android:id="@+id/pass"/>
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:gravity="center_vertical"
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="40.0dip"
+					android:layout_marginTop="5.0dip">
+
+					<CheckBox
+						android:textColor="#ffebf1f1"
+						android:gravity="center|left"
+						android:id="@+id/rememberme"
+						android:layout_width="wrap_content"
+						android:layout_height="fill_parent"
+						android:checked="true"
+						android:text="Remember me"
+						android:layout_weight="1.0"
+						android:buttonTint="#ffebf1f1"/>
+
+					<TextView
+						android:textAppearance="?android:textAppearanceSmall"
+						android:textColor="#ff27c2f8"
+						android:id="@+id/showpwd"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Show/Hide password"/>
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:gravity="center|center_vertical">
+
+					<Button
+						android:id="@+id/init"
+						android:layout_width="130dp"
+						android:layout_height="50dp"
+						android:layout_weight="1.0"
+						android:background="@drawable/btn_round"
+						android:textColor="#FF202125"
+						android:textStyle="bold"
+						android:text="L O G I N"
+						android:textSize="15sp"
+						android:padding="10dp"
+						android:layout_marginTop="10dp"
+						android:layout_marginBottom="10dp"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="50dp"
+				android:orientation="horizontal"
+				android:layout_marginTop="5dp"
+				android:background="@drawable/round"
+				android:padding="5dp"
+				android:gravity="center_vertical"
+				android:id="@+id/getKey">
+
+				<ImageView
+					android:layout_gravity="center"
+					android:layout_width="30dp"
+					android:layout_height="30dp"
+					android:src="@drawable/ic_telegram"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Join Telegram"
+					android:textColor="#FFFFFFFF"
+					android:textSize="15sp"
+					android:layout_marginLeft="10dp"
+					android:textStyle="bold"/>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:layout_gravity="bottom"
+				android:gravity="center"
+				android:background="@drawable/round"
+				android:paddingTop="20dp"
+				android:paddingBottom="10dp">
+
+				<TextView
+					android:id="@+id/version_info"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerHorizontal="true"
+					android:text="A p p   D e v e l o p e r"
+					android:textColor="#ffffff"
+					android:textSize="10dp"/>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:gravity="center|center_vertical">
+
+					<ImageView
+						android:layout_gravity="center"
+						android:layout_width="30dp"
+						android:layout_height="30dp"
+						android:src="@drawable/ic_developer"
+						android:layout_marginRight="5dp"/>
+
+					<TextView
+						android:id="@+id/dev"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_centerHorizontal="true"
+						android:textColor="#ffffff"
+						android:textSize="10dp"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</LinearLayout>
+

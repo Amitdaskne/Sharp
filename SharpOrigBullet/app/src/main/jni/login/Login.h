@@ -1,0 +1,146 @@
+#ifndef LOGIN_H
+#define LOGIN_H
+
+#include "StrEnc.h"
+#include "Includes.h"
+#include <curl/curl.h>
+#include "Tools.h"
+#include "json.hpp"
+#include "Log.h"
+#include "LicenseTools.h"
+#include <jni.h>
+#include <string>
+#include "obfuscate.h"
+
+#include <string>
+
+#define OBF_KEY 0x5A
+
+inline std::string Obfuscate(const char* s) {
+    std::string out;
+    for (size_t i = 0; s[i] != '\0'; i++) {
+        out.push_back(s[i] ^ OBF_KEY);
+    }
+    return out;
+}
+
+inline std::string Deobfuscate(const std::string& s) {
+    std::string out;
+    for (char c : s) {
+        out.push_back(c ^ OBF_KEY);
+    }
+    return out;
+}
+
+
+
+using json = nlohmann::ordered_json;
+bool bValid = false, bValid2 = false, lolo = false, lolo2 = false;
+bool check;
+static bool isLogin = false;
+std::string g_Token, g_Auth;
+std::string g_Token2, g_Auth2, EXP;
+std::string xpr;
+
+
+
+jstring native_Check(JNIEnv *env, jclass clazz, jobject mContext, jstring mUserKey) {
+    auto userKey = env->GetStringUTFChars(mUserKey, 0);
+
+    std::string hwid = userKey;
+    hwid += GetAndroidID(env, mContext);
+    hwid += GetDeviceModel(env);
+    hwid += GetDeviceBrand(env);
+    std::string UUID = GetDeviceUniqueIdentifier(env, hwid.c_str());
+
+    std::string errMsg;
+
+    struct MemoryStruct chunk{};
+    chunk.memory = (char *) malloc(1);
+    chunk.size = 0;
+
+    CURL *curl;
+    CURLcode res;
+    curl = curl_easy_init();
+      if (curl) {
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
+        
+        std::string sRedLink = OBFUSCATE("https://venomkey.com/connect");
+
+
+        curl_easy_setopt(curl, CURLOPT_URL, sRedLink.c_str());
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_DEFAULT_PROTOCOL, "https");
+        struct curl_slist *headers = NULL;
+        headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+        char data[4096];
+                        sprintf(data, "game=PUBG&user_key=%s&serial=%s", userKey, UUID.c_str());
+		curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data);
+
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) &chunk);
+
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+
+        res = curl_easy_perform(curl);
+        if (res == CURLE_OK) {
+                    try {
+                json result = json::parse(chunk.memory);
+                auto STATUS = std::string{"status"};
+                if (result[STATUS] == true) {
+                    auto DATA = std::string{"data"};
+                    auto TOKEN = std::string{"token"};
+                    auto RNG = std::string{"rng"};
+                    std::string token = result[DATA][TOKEN].get<std::string>();
+                    time_t rng = result[DATA][RNG].get<time_t>();
+                    EXP = result["data"]["EXP"].get<std::string>();
+                    if (rng + 30 > time(0)) {
+                        std::string auth = "PUBG";
+                        auth += "-";
+                        auth += userKey;
+                        auth += "-";
+                        auth += UUID;
+                        auth += "-";
+                        auth += "Vm8Lk7Uj2JmsjCPVPVjrLa7zgfx3uz9E";
+                        std::string outputAuth = Tools::CalcMD5(auth);
+                        g_Token = token;
+                        g_Auth = outputAuth;
+                        bValid = g_Token == g_Auth;
+                        lolo = true;
+                        if (bValid && lolo) {
+                            pthread_t t;
+                            LOGI("ZERO");
+                        }
+                    }
+                } else {
+                    auto REASON = std::string{"reason"};
+                    errMsg = result[REASON].get<std::string>();
+                }
+            } catch (json::exception &e) {
+                errMsg = e.what();
+            }
+        } else {
+            errMsg = curl_easy_strerror(res);
+        }
+    }
+    curl_easy_cleanup(curl);
+    return bValid ? env->NewStringUTF("OK") : env->NewStringUTF(errMsg.c_str());
+    return 0;
+}
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_sharp_ui_LoginActivity_LoginAct(JNIEnv *env, jobject thiz ) {
+    return env->NewStringUTF("com.sharp.ui.LoginActivity");
+}
+void native_Init(JNIEnv *env, jclass clazz, jobject mContext) {
+    jstring pMsg = env->NewStringUTF("Welcome");
+    jclass toastClass = env->FindClass("android/widget/Toast");
+    jmethodID makeTextMethod = env->GetStaticMethodID(toastClass, "makeText","(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;");
+    jobject toastObj = env->CallStaticObjectMethod(toastClass, makeTextMethod, mContext, pMsg, 0);
+    jmethodID methodShow = env->GetMethodID(toastClass, "show","()V");
+    env->CallVoidMethod(toastObj, methodShow);
+
+}
+#endif

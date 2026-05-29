@@ -1,0 +1,96 @@
+plugins {
+    id 'com.android.application'
+  //  id 'top.niunaijun.blackobfuscator'
+    id 'org.lsposed.lsparanoid'
+}
+
+android {
+    namespace rootProject.ext.packageName
+    compileSdk 34
+    buildToolsVersion "34"
+    ndkVersion "24.0.8215888"
+
+    defaultConfig {
+        applicationId rootProject.ext.packageName
+        minSdk 24
+        targetSdk 28
+        versionCode 1
+        versionName "4.1.0"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+        buildFeatures {
+            buildConfig true
+        }
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
+    }
+    
+    signingConfigs {
+    release {
+        storeFile file("app/SigningKey.jks")
+        storePassword "ayan1234"
+        keyAlias "ayan_alias"
+        keyPassword "ayan1234"
+    }
+}
+
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        
+    release {
+        signingConfig signingConfigs.release
+        minifyEnabled true
+        shrinkResources true
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+}
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    externalNativeBuild {
+        ndkBuild {
+            path file('src/main/jni/Android.mk')
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+    
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
+
+    
+  }
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
+    
+    implementation 'net.lingala.zip4j:zip4j:2.11.5'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+
+    implementation("com.github.tiann:FreeReflection:3.1.0") {
+        exclude group: 'me.weishu.reflection'
+    }
+
+    implementation "com.github.CodingGay.BlackReflection:core:1.1.4"
+    annotationProcessor "com.github.CodingGay.BlackReflection:compiler:1.1.4"
+
+}

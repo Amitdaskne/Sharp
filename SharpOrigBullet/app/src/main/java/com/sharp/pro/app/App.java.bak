@@ -1,0 +1,33 @@
+package com.sharp.pro.app;
+
+import android.app.Application;
+import android.content.Context;
+
+import top.niunaijun.blackbox.core.system.api.MetaActivationManager;
+
+public class App extends Application {
+
+    private static Context context;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        // تهيئة BlackBox مرة واحدة فقط
+        MetaActivationManager.attachClient(base);
+
+        context = base;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        // تفعيل SDK
+        MetaActivationManager.activateSdk("521E-0161-86B1-C0D2");
+    }
+
+    public static Context getAppContext() {
+        return context;
+    }
+}
