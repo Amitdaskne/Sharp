@@ -14,7 +14,7 @@ public class App extends Application {
         super.attachBaseContext(base);
 
         // تهيئة BlackBox مرة واحدة فقط
-        MetaActivationManager.attachClient(base);
+        // MetaActivationManager.attachClient(base);
 
         context = base;
     }

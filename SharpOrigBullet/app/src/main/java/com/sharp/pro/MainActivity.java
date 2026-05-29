@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
         Kontol();
         TimeExpired = EXP();
         CountTimerAccout();
-        boolean isActivated = MetaActivationManager.getActivationStatus();
+        boolean isActivated = true;
             String activationMessage = "";
             if (isActivated) {
                 Toast.makeText(getApplicationContext(), "SDK : " + activationMessage, Toast.LENGTH_LONG).show();
